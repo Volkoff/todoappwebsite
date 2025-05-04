@@ -1,0 +1,219 @@
+.profileContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profileHeader h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+}
+
+.editButton {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background: var(--primary-dark);
+}
+
+.profileContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profileSection {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.profileSection h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.formGroup input {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.saveButton {
+  padding: 0.5rem 1rem;
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start;
+}
+
+.saveButton:hover {
+  background: var(--success-dark);
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  gap: 1rem;
+}
+
+.label {
+  color: var(--text-secondary);
+  min-width: 100px;
+}
+
+.value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.statValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.achievementsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.achievementIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+.achievementInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.achievementName {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.achievementDescription {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+.error {
+  text-align: center;
+  color: var(--error);
+  padding: 2rem;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .profileContainer {
+    background: var(--bg-secondary-dark);
+  }
+
+  .profileSection {
+    background: var(--bg-primary-dark);
+  }
+
+  .formGroup input {
+    background: var(--bg-primary-dark);
+    border-color: var(--border-dark);
+  }
+
+  .statCard {
+    background: var(--bg-secondary-dark);
+  }
+
+  .achievementItem {
+    background: var(--bg-secondary-dark);
+  }
+} 

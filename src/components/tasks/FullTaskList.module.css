@@ -1,0 +1,566 @@
+.fullTaskList {
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: var(--primary-hover);
+}
+
+.addButton .material-icons {
+  font-size: 1.25rem;
+}
+
+.calendar {
+  flex: 1;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.calendarTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+}
+
+.calendarDay:hover {
+  background-color: var(--button-bg);
+  border-color: var(--button-bg);
+}
+
+.calendarDay.today {
+  background-color: var(--success-bg);
+  border-color: var(--success-bg);
+}
+
+.calendarDay.selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.calendarDay.hasTasks::after {
+  content: '';
+  position: absolute;
+  bottom: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.calendarDayName {
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.calendarDayNumber {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.calendarDay.selected .calendarDayNumber {
+  color: white;
+}
+
+.taskCount {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 32rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.modalClose {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.modalClose:hover {
+  background-color: var(--hover-color);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.formInput {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.formSelect {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.formTextarea {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.formButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.formButton.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.formButton.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.formButton.secondary {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+}
+
+.formButton.secondary:hover {
+  background-color: var(--button-hover);
+}
+
+.selectedDate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.selectedDate h2 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.clearDateButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clearDateButton:hover {
+  background-color: #c0392b;
+}
+
+.clearDateButton .material-icons {
+  font-size: 1.25rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filterGroup label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.filterGroup select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #2c3e50;
+  cursor: pointer;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task.completed {
+  opacity: 0.7;
+}
+
+.taskContent {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.taskInfo {
+  flex: 1;
+}
+
+.taskInfo h3 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.taskInfo p {
+  margin: 0 0 0.5rem 0;
+  color: #666;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.priority.high {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.priority.medium {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.priority.low {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.deadline {
+  color: #666;
+}
+
+.taskActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.editButton:hover {
+  background-color: #e5e7eb;
+}
+
+.deleteButton {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.deleteButton:hover {
+  background-color: #fecaca;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Dark mode styles */
+:global(.dark) .fullTaskList {
+  background-color: #1a1a1a;
+}
+
+:global(.dark) .header h1 {
+  color: #e2e8f0;
+}
+
+:global(.dark) .selectedDate {
+  background-color: #2c2c2c;
+}
+
+:global(.dark) .selectedDate h2 {
+  color: #e2e8f0;
+}
+
+:global(.dark) .filterGroup label {
+  color: #e2e8f0;
+}
+
+:global(.dark) .filterGroup select {
+  background-color: #2c2c2c;
+  border-color: #404040;
+  color: #e2e8f0;
+}
+
+:global(.dark) .task {
+  background-color: #2c2c2c;
+  border-color: #404040;
+}
+
+:global(.dark) .taskInfo h3 {
+  color: #e2e8f0;
+}
+
+:global(.dark) .taskInfo p {
+  color: #94a3b8;
+}
+
+:global(.dark) .deadline {
+  color: #94a3b8;
+}
+
+:global(.dark) .editButton {
+  background-color: #404040;
+  color: #e2e8f0;
+}
+
+:global(.dark) .editButton:hover {
+  background-color: #4a4a4a;
+}
+
+:global(.dark) .emptyMessage {
+  color: #94a3b8;
+}
+
+.fullTaskList h1 {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.themeToggle:hover {
+  background-color: var(--hover-color);
+}
+
+.themeToggle .material-icons {
+  font-size: 1.5rem;
+} 

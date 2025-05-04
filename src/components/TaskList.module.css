@@ -1,0 +1,271 @@
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: rgb(255, 253, 253);
+}
+
+.taskHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.taskTitleInput {
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.taskTitleInput:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.taskTitleInput.completed {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.taskDescription {
+  margin: 0.5rem 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+  opacity: 0.8;
+}
+
+.taskItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: rgb(255, 253, 253);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.taskItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.taskContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.taskInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.taskTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  flex: 1;
+}
+
+.taskTitle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.taskTitle.completed {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.taskActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.iconButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #2c3e50;
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconButton .material-icons {
+  font-size: 1.25rem;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  opacity: 0.8;
+}
+
+.priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.priorityLow {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.priorityMedium {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.priorityHigh {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+.addTaskButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+.addTaskButton:hover {
+  background-color: #2563eb;
+}
+
+/* Dark mode styles */
+:global(.dark) .taskList {
+  background-color: #2d2d2d;
+}
+
+:global(.dark) .taskItem {
+  background-color: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .taskItem:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .taskTitle {
+  color: #e2e8f0;
+}
+
+:global(.dark) .taskTitle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .taskTitle.completed {
+  color: #94a3b8;
+}
+
+:global(.dark) .taskDescription {
+  color: #94a3b8;
+}
+
+:global(.dark) .taskMeta {
+  color: #94a3b8;
+}
+
+:global(.dark) .priorityLow {
+  background-color: rgba(25, 118, 210, 0.2);
+  color: #64b5f6;
+}
+
+:global(.dark) .priorityMedium {
+  background-color: rgba(245, 124, 0, 0.2);
+  color: #ffb74d;
+}
+
+:global(.dark) .priorityHigh {
+  background-color: rgba(194, 24, 91, 0.2);
+  color: #f48fb1;
+}
+
+:global(.dark) .taskTitleInput {
+  color: #e2e8f0;
+}
+
+:global(.dark) .taskTitleInput:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .taskTitleInput.completed {
+  color: #94a3b8;
+}
+
+:global(.dark) .iconButton {
+  color: #94a3b8;
+}
+
+:global(.dark) .iconButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+:global(.dark) .addTaskButton {
+  background-color: #1e40af;
+}
+
+:global(.dark) .addTaskButton:hover {
+  background-color: #1e3a8a;
+} 

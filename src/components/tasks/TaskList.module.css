@@ -1,0 +1,271 @@
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.taskItem {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.taskContent {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.taskInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.taskInfo h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.taskInfo h3.completed {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.description {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.priority.low {
+  background-color: var(--success-bg);
+  color: var(--text-primary);
+}
+
+.priority.medium {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+}
+
+.priority.high {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.deadline {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.deadline.pastDue {
+  color: var(--error-text);
+}
+
+.deadline.dueTomorrow {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.taskActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.editButton:hover {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+}
+
+.deleteButton:hover {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.editInput,
+.editTextarea,
+.editSelect {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.editTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.editControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.saveButton,
+.cancelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.saveButton {
+  background-color: var(--success-bg);
+  color: var(--text-primary);
+}
+
+.saveButton:hover {
+  background-color: var(--button-hover);
+}
+
+.cancelButton {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.cancelButton:hover {
+  background-color: var(--error-hover);
+}
+
+.deleteConfirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+}
+
+.deleteConfirm p {
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.deleteActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.confirmDeleteButton,
+.cancelDeleteButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.confirmDeleteButton {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.confirmDeleteButton:hover {
+  background-color: var(--error-hover);
+}
+
+.cancelDeleteButton {
+  background-color: var(--button-bg);
+  color: var(--text-primary);
+}
+
+.cancelDeleteButton:hover {
+  background-color: var(--button-hover);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.emptyState .material-icons {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.emptyState h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 1rem;
+} 

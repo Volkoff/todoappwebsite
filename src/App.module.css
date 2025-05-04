@@ -1,0 +1,67 @@
+.app {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dark {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+.header {
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.dark .header {
+  background-color: #111827;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.themeButton {
+  padding: 8px;
+  border-radius: 8px;
+  background: none;
+}
+
+.themeButton:hover {
+  background-color: #f3f4f6;
+}
+
+.dark .themeButton:hover {
+  background-color: #374151;
+}
+
+.main {
+  padding: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 2fr 1fr;
+  }
+} 

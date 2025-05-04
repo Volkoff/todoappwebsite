@@ -1,0 +1,87 @@
+.settings {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.settings h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  transition: color 0.3s ease;
+}
+
+.settingsContent {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.settingGroup {
+  margin-bottom: 2rem;
+}
+
+.settingGroup h2 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.settingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--button-bg);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.settingItem:hover {
+  background-color: var(--button-hover);
+}
+
+.settingItem label {
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.toggleButton:hover {
+  background-color: var(--button-hover);
+}
+
+/* Dark mode styles */
+:global(.dark) .settings {
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .settingsContent {
+  background-color: var(--card-bg);
+}
+
+:global(.dark) .settingItem {
+  background-color: var(--button-bg);
+}
+
+:global(.dark) .settingItem:hover {
+  background-color: var(--button-hover);
+} 
