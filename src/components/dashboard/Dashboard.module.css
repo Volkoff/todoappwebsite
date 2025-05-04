@@ -1,11 +1,47 @@
 .dashboard {
-  display: flex;
-  flex-direction: column;
+  padding: 2rem;
   height: 100%;
-  padding: 1rem;
-  gap: 1rem;
-  background-color: var(--background-color);
-  transition: background-color 0.3s ease;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.column {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.column h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+/* Dark mode styles */
+:global(.dark) .column {
+  background-color: var(--bg-secondary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .header h1,
+:global(.dark) .column h2 {
+  color: var(--text-primary);
 }
 
 .header {

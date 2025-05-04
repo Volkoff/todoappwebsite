@@ -1,0 +1,207 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.header {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.collapseButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.collapseButton:hover {
+  background-color: var(--button-hover);
+}
+
+.nav {
+  flex: 1;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.navItem:hover {
+  background-color: var(--button-hover);
+}
+
+.navItem.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.navItem .material-icons {
+  font-size: 1.5rem;
+}
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.profileLink:hover {
+  background-color: var(--button-hover);
+}
+
+.profileLink.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-weight: 500;
+}
+
+.userEmail {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  max-width: 100%;
+}
+
+.userEmail::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, transparent, var(--sidebar-bg));
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.themeButton,
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 4px;
+  width: 100%;
+  text-align: left;
+}
+
+.themeButton:hover,
+.logoutButton:hover {
+  background-color: var(--button-hover);
+}
+
+.themeButton .material-icons,
+.logoutButton .material-icons {
+  font-size: 1.5rem;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark mode specific styles */
+:global(.dark) .sidebar {
+  background-color: var(--sidebar-bg);
+  border-right-color: var(--border-color);
+}
+
+:global(.dark) .header,
+:global(.dark) .footer {
+  border-color: var(--border-color);
+}
+
+:global(.dark) .navItem:hover,
+:global(.dark) .themeButton:hover,
+:global(.dark) .logoutButton:hover,
+:global(.dark) .profileLink:hover {
+  background-color: var(--button-hover);
+}
+
+:global(.dark) .userEmail::after {
+  background: linear-gradient(to right, transparent, var(--sidebar-bg));
+} 

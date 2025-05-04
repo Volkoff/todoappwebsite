@@ -10,6 +10,7 @@ interface TasksContextType {
   addTask: (task: Omit<Task, 'id' | 'userId' | 'createdAt'>) => Promise<void>;
   updateTask: (id: string, updates: Partial<Task>) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
+  toggleTask: (id: string) => Promise<void>;
   resetTasks: () => Promise<void>;
 }
 
@@ -29,7 +30,9 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
     const fetchTasks = async () => {
       try {
-        const q = query(collection(db, 'tasks'), where('userId', '==', user.id));
+        const userDoc = doc(db, 'users', user.id);
+        const tasksRef = collection(userDoc, 'tasks');
+        const q = query(tasksRef, where('userId', '==', user.id));
         const querySnapshot = await getDocs(q);
         const fetchedTasks = querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -55,14 +58,18 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       createdAt: new Date().toISOString()
     };
 
-    const docRef = await addDoc(collection(db, 'tasks'), newTask);
+    const userDoc = doc(db, 'users', user.id);
+    const tasksRef = collection(userDoc, 'tasks');
+    const docRef = await addDoc(tasksRef, newTask);
     setTasks(prev => [...prev, { ...newTask, id: docRef.id }]);
   };
 
   const updateTask = async (id: string, updates: Partial<Task>) => {
     if (!user) throw new Error('No user logged in');
 
-    await updateDoc(doc(db, 'tasks', id), updates);
+    const userDoc = doc(db, 'users', user.id);
+    const taskDoc = doc(userDoc, 'tasks', id);
+    await updateDoc(taskDoc, updates);
     setTasks(prev => prev.map(task => 
       task.id === id ? { ...task, ...updates } : task
     ));
@@ -71,15 +78,38 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   const deleteTask = async (id: string) => {
     if (!user) throw new Error('No user logged in');
 
-    await deleteDoc(doc(db, 'tasks', id));
+    const userDoc = doc(db, 'users', user.id);
+    const taskDoc = doc(userDoc, 'tasks', id);
+    await deleteDoc(taskDoc);
     setTasks(prev => prev.filter(task => task.id !== id));
+  };
+
+  const toggleTask = async (id: string) => {
+    if (!user) throw new Error('No user logged in');
+
+    const task = tasks.find(t => t.id === id);
+    if (!task) throw new Error('Task not found');
+
+    const updates = {
+      completed: !task.completed,
+      completedAt: !task.completed ? new Date().toISOString() : null
+    };
+
+    const userDoc = doc(db, 'users', user.id);
+    const taskDoc = doc(userDoc, 'tasks', id);
+    await updateDoc(taskDoc, updates);
+    setTasks(prev => prev.map(t => 
+      t.id === id ? { ...t, ...updates } : t
+    ));
   };
 
   const resetTasks = async () => {
     if (!user) throw new Error('No user logged in');
 
     try {
-      const q = query(collection(db, 'tasks'), where('userId', '==', user.id));
+      const userDoc = doc(db, 'users', user.id);
+      const tasksRef = collection(userDoc, 'tasks');
+      const q = query(tasksRef, where('userId', '==', user.id));
       const querySnapshot = await getDocs(q);
       
       // Delete all tasks
@@ -96,7 +126,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <TasksContext.Provider value={{ tasks, loading, addTask, updateTask, deleteTask, resetTasks }}>
+    <TasksContext.Provider value={{ tasks, loading, addTask, updateTask, deleteTask, toggleTask, resetTasks }}>
       {children}
     </TasksContext.Provider>
   );

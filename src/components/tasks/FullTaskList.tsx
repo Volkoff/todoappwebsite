@@ -13,7 +13,7 @@ export default function FullTaskList() {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const handleAddTask = (task: Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'userId'>) => {
+  const handleAddTask = (task: Omit<Task, 'id' | 'userId' | 'createdAt'>) => {
     addTask(task);
     setIsModalOpen(false);
     setEditingTask(null);
@@ -24,7 +24,7 @@ export default function FullTaskList() {
     setIsModalOpen(true);
   };
 
-  const handleUpdateTask = (task: Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'userId'>) => {
+  const handleUpdateTask = (task: Omit<Task, 'id' | 'userId' | 'createdAt'>) => {
     if (!editingTask) return;
     updateTask(editingTask.id, task);
     setEditingTask(null);
@@ -51,16 +51,7 @@ export default function FullTaskList() {
           <button 
             className={styles.addButton}
             onClick={() => {
-              setEditingTask({
-                id: '',
-                title: '',
-                description: '',
-                priority: 'medium',
-                deadline: selectedDate ? selectedDate.toISOString() : '',
-                completed: false,
-                createdAt: new Date().toISOString(),
-                userId: user?.id || '',
-              });
+              setEditingTask(null);
               setIsModalOpen(true);
             }}
           >

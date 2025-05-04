@@ -5,8 +5,8 @@ import styles from './AddTaskModal.module.css';
 interface AddTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (task: Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'userId'>) => void;
-  onUpdate: (task: Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'userId'>) => void;
+  onAdd: (task: Omit<Task, 'id' | 'userId' | 'createdAt'>) => void;
+  onUpdate: (task: Omit<Task, 'id' | 'userId' | 'createdAt'>) => void;
   editingTask: Task | null;
 }
 
@@ -54,6 +54,7 @@ export default function AddTaskModal({
       priority,
       deadline,
       completed: editingTask?.completed || false,
+      completedAt: editingTask?.completed ? editingTask.completedAt : null
     };
 
     if (editingTask) {

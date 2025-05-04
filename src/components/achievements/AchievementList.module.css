@@ -1,0 +1,86 @@
+.achievementList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.achievement {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-tertiary);
+  transition: background-color 0.2s;
+}
+
+.achievement.completed {
+  background-color: var(--success-bg);
+}
+
+.achievement.locked {
+  background-color: var(--bg-tertiary);
+  opacity: 0.7;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+}
+
+.icon .material-icons {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.details {
+  flex: 1;
+}
+
+.details h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.details p {
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0;
+  color: var(--text-secondary);
+}
+
+/* Dark mode styles */
+:global(.dark) .achievement {
+  background-color: var(--bg-tertiary);
+}
+
+:global(.dark) .achievement.completed {
+  background-color: var(--success-bg);
+}
+
+:global(.dark) .achievement.locked {
+  background-color: var(--bg-tertiary);
+  opacity: 0.7;
+}
+
+:global(.dark) .icon {
+  background-color: var(--bg-secondary);
+}
+
+:global(.dark) .icon .material-icons {
+  color: var(--text-primary);
+}
+
+:global(.dark) .details h3 {
+  color: var(--text-primary);
+}
+
+:global(.dark) .details p {
+  color: var(--text-secondary);
+} 
