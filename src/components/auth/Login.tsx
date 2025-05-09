@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useAuth } from '../../context/AuthContext';
 import { FirebaseError } from 'firebase/app';
 import styles from './Auth.module.css';
 
@@ -11,7 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { signIn } = useUser();
+  const { login } = useAuth();
 
   const validateEmail = (email: string) => {
     return email === 'example@example.example';
@@ -33,7 +33,7 @@ export default function Login() {
     }
 
     try {
-      await signIn(email, password);
+      await login(email, password);
       navigate('/');
     } catch (err) {
       if (err instanceof FirebaseError) {
@@ -66,55 +66,37 @@ export default function Login() {
       <div className={styles.authCard}>
         <h2 className={styles.authTitle}>Welcome Back!</h2>
         {error && <div className={styles.error}>{error}</div>}
-        <form onSubmit={handleSubmit} className={styles.authForm}>
-          <div className={styles.formGroup}>
-            <label htmlFor="email">Email</label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="loginEmail">Email</label>
             <input
               type="email"
-              id="email"
+              id="loginEmail"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
               required
-              className={styles.input}
-              placeholder="example@example.example"
-              disabled={loading}
             />
           </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="password">
-              Password
-              <button
-                type="button"
-                className={styles.togglePassword}
-                onClick={() => setShowPassword(!showPassword)}
-                title={showPassword ? "Hide password" : "Show password"}
-              >
-                <span className="material-icons">
-                  {showPassword ? "visibility_off" : "visibility"}
-                </span>
-              </button>
-            </label>
-            <div className={styles.passwordContainer}>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className={styles.input}
-                placeholder="Enter your password"
-                disabled={loading}
-                minLength={7}
-              />
-            </div>
-            <small className={styles.passwordHint}>Password must be at least 7 characters long</small>
+          <div className={styles.inputGroup}>
+            <label htmlFor="loginPassword">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
           </div>
-          <button
-            type="submit"
-            disabled={loading}
+          <button 
+            type="submit" 
             className={styles.submitButton}
+            disabled={loading}
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
         <p className={styles.authFooter}>

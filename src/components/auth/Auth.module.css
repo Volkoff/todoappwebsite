@@ -1,10 +1,121 @@
 .authContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
-  background-color: var(--background-light);
+  background-color: var(--background-primary);
+}
+
+.authBox {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.authBox h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.formGroup input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.submitButton {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--accent-color, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton:hover {
+  background-color: var(--accent-color-hover, #4338ca);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.submitButton:disabled:hover {
+  background-color: #9ca3af;
+  transform: none;
+  box-shadow: none;
+}
+
+.error {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: var(--error-background);
+  color: var(--error-text);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.switchAuth {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 .authCard {
@@ -66,58 +177,6 @@
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
-}
-
-.submitButton {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.875rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 0.5rem;
-}
-
-.submitButton:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.submitButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.error {
-  background-color: #fff3f3;
-  color: #dc3545;
-  padding: 0.875rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  border: 1px solid #ffcdd2;
-}
-
-.authFooter {
-  text-align: center;
-  margin-top: 2rem;
-  color: var(--text-light);
-  font-size: 0.9rem;
-}
-
-.authLink {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 0.25rem;
-}
-
-.authLink:hover {
-  text-decoration: underline;
 }
 
 .passwordHint {
@@ -216,4 +275,143 @@
   .authTitle {
     font-size: 1.5rem;
   }
+}
+
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--background-color);
+}
+
+.authBox {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.authBox h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.inputGroup input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--input-background);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.submitButton {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background: var(--primary-color-hover);
+}
+
+.submitButton:disabled {
+  background: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+.error {
+  color: var(--error-color);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.authLink {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.authLink a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.authLink a:hover {
+  text-decoration: underline;
+}
+
+.verificationMessage {
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .authBox {
+    background: var(--card-background-dark);
+  }
+
+  .inputGroup input {
+    background: var(--input-background-dark);
+    border-color: var(--border-color-dark);
+  }
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.resendButton:hover:not(:disabled) {
+  color: var(--primary-color-hover);
+  text-decoration: underline;
+}
+
+.resendButton:disabled {
+  color: var(--disabled-color);
+  cursor: not-allowed;
 } 

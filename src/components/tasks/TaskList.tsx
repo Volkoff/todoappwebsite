@@ -73,13 +73,7 @@ export default function TaskList({ tasks }: TaskListProps) {
               </div>
             </div>
             <div className={styles.taskActions}>
-              <button
-                onClick={() => setEditingTask(task)}
-                className={styles.editButton}
-                title="Edit task"
-              >
-                <span className="material-icons">edit</span>
-              </button>
+              
               <button
                 onClick={() => setShowDeleteConfirm(task.id)}
                 className={styles.deleteButton}

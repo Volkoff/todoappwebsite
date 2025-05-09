@@ -176,6 +176,7 @@ const Achievements: React.FC = () => {
   return (
     <div className={styles.achievementsContainer}>
       <h1 className={styles.title}>Achievements</h1>
+      
       <div className={styles.stats}>
         <div className={styles.stat}>
           <span className={styles.statValue}>{completedAchievements.length}</span>
@@ -193,40 +194,42 @@ const Achievements: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.achievementsList}>
-        <h2 className={styles.sectionTitle}>Completed Achievements</h2>
-        <div className={styles.achievementsGrid}>
-          {completedAchievements.map(achievement => (
-            <div key={achievement.id} className={`${styles.achievement} ${styles.completed}`}>
-              <span className={styles.icon}>{achievement.icon}</span>
-              <h3 className={styles.achievementTitle}>{achievement.title}</h3>
-              <p className={styles.achievementDescription}>{achievement.description}</p>
-              <div className={styles.achievementPoints}>{achievement.points} points</div>
-            </div>
-          ))}
-        </div>
+      {completedAchievements.length > 0 && (
+        <>
+          <h2 className={styles.sectionTitle}>Completed Achievements</h2>
+          <div className={styles.achievementsGrid}>
+            {completedAchievements.map(achievement => (
+              <div key={achievement.id} className={`${styles.achievement} ${styles.completed}`}>
+                <span className={styles.icon}>{achievement.icon}</span>
+                <h3 className={styles.achievementTitle}>{achievement.title}</h3>
+                <p className={styles.achievementDescription}>{achievement.description}</p>
+                <div className={styles.achievementPoints}>{achievement.points} points</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
-        <h2 className={styles.sectionTitle}>Incomplete Achievements</h2>
-        <div className={styles.achievementsGrid}>
-          {incompleteAchievements.map(achievement => (
-            <div key={achievement.id} className={styles.achievement}>
-              <span className={styles.icon}>{achievement.icon}</span>
-              <h3 className={styles.achievementTitle}>{achievement.title}</h3>
-              <p className={styles.achievementDescription}>{achievement.description}</p>
-              <div className={styles.achievementPoints}>{achievement.points} points</div>
-              {achievement.streakRequired && (
-                <div className={styles.requirement}>
-                  Streak Required: {achievement.streakRequired} days
-                </div>
-              )}
-              {achievement.tasksRequired && (
-                <div className={styles.requirement}>
-                  Tasks Required: {achievement.tasksRequired}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+      <h2 className={styles.sectionTitle}>Incomplete Achievements</h2>
+      <div className={styles.achievementsGrid}>
+        {incompleteAchievements.map(achievement => (
+          <div key={achievement.id} className={styles.achievement}>
+            <span className={styles.icon}>{achievement.icon}</span>
+            <h3 className={styles.achievementTitle}>{achievement.title}</h3>
+            <p className={styles.achievementDescription}>{achievement.description}</p>
+            <div className={styles.achievementPoints}>{achievement.points} points</div>
+            {achievement.streakRequired && (
+              <div className={styles.requirement}>
+                Streak Required: {achievement.streakRequired} days
+              </div>
+            )}
+            {achievement.tasksRequired && (
+              <div className={styles.requirement}>
+                Tasks Required: {achievement.tasksRequired}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

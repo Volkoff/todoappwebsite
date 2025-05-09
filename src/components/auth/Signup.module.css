@@ -1,0 +1,118 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+}
+
+.card {
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card h1 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.message {
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.inputGroup input {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.signupButton {
+  background-color: #4f46e5; /* Indigo-600 as fallback */
+  background-color: var(--primary, #4f46e5);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.signupButton:hover:not(:disabled) {
+  background-color: #4338ca; /* Indigo-700 as fallback */
+  background-color: var(--primary-dark, #4338ca);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signupButton:disabled {
+  background-color: #9ca3af; /* Gray-400 as fallback */
+  background-color: var(--text-secondary, #9ca3af);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loginLink {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.linkButton:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+} 

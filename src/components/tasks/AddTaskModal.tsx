@@ -54,7 +54,7 @@ export default function AddTaskModal({
       priority,
       deadline,
       completed: editingTask?.completed || false,
-      completedAt: editingTask?.completed ? editingTask.completedAt : null
+      completedAt: editingTask?.completedAt || null
     };
 
     if (editingTask) {
@@ -77,10 +77,11 @@ export default function AddTaskModal({
         </div>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="taskTitle">Title</label>
             <input
               type="text"
-              id="title"
+              id="taskTitle"
+              name="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter task title"
@@ -88,9 +89,10 @@ export default function AddTaskModal({
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="taskDescription">Description</label>
             <textarea
-              id="description"
+              id="taskDescription"
+              name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter task description"
@@ -98,9 +100,10 @@ export default function AddTaskModal({
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="priority">Priority</label>
+            <label htmlFor="taskPriority">Priority</label>
             <select
-              id="priority"
+              id="taskPriority"
+              name="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
             >
@@ -110,20 +113,22 @@ export default function AddTaskModal({
             </select>
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="date">Date</label>
+            <label htmlFor="taskDate">Date</label>
             <input
               type="date"
-              id="date"
+              id="taskDate"
+              name="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               min={new Date().toISOString().split('T')[0]}
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="time">Time</label>
+            <label htmlFor="taskTime">Time</label>
             <input
               type="time"
-              id="time"
+              id="taskTime"
+              name="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />

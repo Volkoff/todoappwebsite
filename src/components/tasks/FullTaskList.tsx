@@ -68,6 +68,7 @@ export default function FullTaskList() {
         onToggleTask={handleToggleTask}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
+        onUpdateTask={updateTask}
       />
 
       {isModalOpen && (

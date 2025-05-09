@@ -1,36 +1,35 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useAuth } from './AuthContext';
 import { db } from '../config/firebase';
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { useUser } from './UserContext';
-
-interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  progress: number;
-  target: number;
-  completed: boolean;
-  userId: string;
-  createdAt: string;
-  completedAt: string | null;
-}
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { Achievement } from '../types';
 
 interface AchievementContextType {
   achievements: Achievement[];
   loading: boolean;
-  addAchievement: (achievement: Omit<Achievement, 'id' | 'userId' | 'createdAt' | 'completedAt'>) => Promise<void>;
-  updateAchievement: (id: string, updates: Partial<Achievement>) => Promise<void>;
-  deleteAchievement: (id: string) => Promise<void>;
-  resetAchievements: () => Promise<void>;
+  addAchievement: (achievement: Omit<Achievement, 'id' | 'userId' | 'createdAt'>) => Promise<void>;
+  updateAchievement: (id: string, achievement: Partial<Achievement>) => Promise<void>;
 }
 
-const AchievementContext = createContext<AchievementContextType | undefined>(undefined);
+const AchievementContext = createContext<AchievementContextType>({
+  achievements: [],
+  loading: true,
+  addAchievement: async () => {},
+  updateAchievement: async () => {},
+});
 
-export function AchievementProvider({ children }: { children: ReactNode }) {
+export function useAchievements() {
+  return useContext(AchievementContext);
+}
+
+interface AchievementProviderProps {
+  children: ReactNode;
+}
+
+export function AchievementProvider({ children }: AchievementProviderProps) {
+  const { user } = useAuth();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useUser();
 
   useEffect(() => {
     if (!user) {
@@ -39,86 +38,39 @@ export function AchievementProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const fetchAchievements = async () => {
-      try {
-        const q = query(collection(db, 'achievements'), where('userId', '==', user.id));
-        const querySnapshot = await getDocs(q);
-        const fetchedAchievements = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Achievement[];
-        setAchievements(fetchedAchievements);
-      } catch (error) {
-        console.error('Error fetching achievements:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const q = query(collection(db, 'achievements'), where('userId', '==', user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const achievementsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Achievement[];
+      setAchievements(achievementsData);
+      setLoading(false);
+    });
 
-    fetchAchievements();
+    return () => unsubscribe();
   }, [user]);
 
-  const addAchievement = async (achievement: Omit<Achievement, 'id' | 'userId' | 'createdAt' | 'completedAt'>) => {
-    if (!user) throw new Error('No user logged in');
+  const addAchievement = async (achievement: Omit<Achievement, 'id' | 'userId' | 'createdAt'>) => {
+    if (!user) return;
 
     const newAchievement = {
       ...achievement,
-      userId: user.id,
+      userId: user.uid,
       createdAt: new Date().toISOString(),
-      completedAt: null
     };
 
-    const docRef = await addDoc(collection(db, 'achievements'), newAchievement);
-    setAchievements(prev => [...prev, { ...newAchievement, id: docRef.id }]);
+    await addDoc(collection(db, 'achievements'), newAchievement);
   };
 
-  const updateAchievement = async (id: string, updates: Partial<Achievement>) => {
-    if (!user) throw new Error('No user logged in');
-
-    await updateDoc(doc(db, 'achievements', id), updates);
-    setAchievements(prev => prev.map(achievement => 
-      achievement.id === id ? { ...achievement, ...updates } : achievement
-    ));
-  };
-
-  const deleteAchievement = async (id: string) => {
-    if (!user) throw new Error('No user logged in');
-
-    await deleteDoc(doc(db, 'achievements', id));
-    setAchievements(prev => prev.filter(achievement => achievement.id !== id));
-  };
-
-  const resetAchievements = async () => {
-    if (!user) throw new Error('No user logged in');
-
-    try {
-      const q = query(collection(db, 'achievements'), where('userId', '==', user.id));
-      const querySnapshot = await getDocs(q);
-      
-      // Delete all achievements
-      const deletePromises = querySnapshot.docs.map(doc => 
-        deleteDoc(doc.ref)
-      );
-      await Promise.all(deletePromises);
-      
-      setAchievements([]);
-    } catch (error) {
-      console.error('Error resetting achievements:', error);
-      throw error;
-    }
+  const updateAchievement = async (id: string, achievement: Partial<Achievement>) => {
+    const achievementRef = doc(db, 'achievements', id);
+    await updateDoc(achievementRef, achievement);
   };
 
   return (
-    <AchievementContext.Provider value={{ achievements, loading, addAchievement, updateAchievement, deleteAchievement, resetAchievements }}>
+    <AchievementContext.Provider value={{ achievements, loading, addAchievement, updateAchievement }}>
       {children}
     </AchievementContext.Provider>
   );
-}
-
-export function useAchievements() {
-  const context = useContext(AchievementContext);
-  if (context === undefined) {
-    throw new Error('useAchievements must be used within an AchievementProvider');
-  }
-  return context;
 } 

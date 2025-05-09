@@ -9,6 +9,8 @@ interface TaskCalendarProps {
   onToggleTask: (id: string) => void;
   onEditTask: (task: Task) => void;
   onDeleteTask: (id: string) => void;
+  onUpdateTask: (id: string, task: Partial<Task>) => void;
+  showEditButton?: boolean;
 }
 
 export default function TaskCalendar({ 
@@ -17,7 +19,9 @@ export default function TaskCalendar({
   selectedDate,
   onToggleTask,
   onEditTask,
-  onDeleteTask
+  onDeleteTask,
+  onUpdateTask,
+  showEditButton = true
 }: TaskCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isAddingTask, setIsAddingTask] = useState(false);
@@ -97,11 +101,10 @@ export default function TaskCalendar({
   };
 
   const handleEditTask = (taskId: string) => {
-    setEditingTask(taskId);
     const task = tasks.find(t => t.id === taskId);
     if (task) {
-      setNewTaskTitle(task.title);
-      setNewTaskPriority(task.priority);
+      onEditTask(task);
+      onDateClick(null);
     }
   };
 
@@ -243,12 +246,14 @@ export default function TaskCalendar({
                       {task.priority}
                     </span>
                     <div className={styles.taskActions}>
-                      <button 
-                        onClick={() => handleEditTask(task.id)}
-                        className={styles.editButton}
-                      >
-                        <span className="material-icons">edit</span>
-                      </button>
+                      {showEditButton && (
+                        <button 
+                          onClick={() => handleEditTask(task.id)}
+                          className={styles.editButton}
+                        >
+                          <span className="material-icons">edit</span>
+                        </button>
+                      )}
                       <button 
                         onClick={() => onDeleteTask(task.id)}
                         className={styles.deleteButton}

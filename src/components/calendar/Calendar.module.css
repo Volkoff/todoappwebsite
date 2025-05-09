@@ -12,44 +12,37 @@
 }
 
 .calendar {
-  background: var(--card-background);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
-  grid-column: 1 / -1;
 }
 
 .header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .navButton {
   background: none;
   border: none;
-  color: var(--text-color);
+  color: var(--text-primary);
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
 .navButton:hover {
-  background: var(--hover-background);
+  background-color: var(--background-hover);
 }
 
 .weekdays {
@@ -57,14 +50,12 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-  text-align: center;
 }
 
 .weekday {
   text-align: center;
   font-weight: 500;
   color: var(--text-secondary);
-  font-size: 0.9rem;
   padding: 0.5rem;
 }
 
@@ -77,37 +68,59 @@
 .day {
   aspect-ratio: 1;
   padding: 0.5rem;
-  border-radius: 0.25rem;
-  background: var(--background);
+  border-radius: 4px;
+  background-color: var(--background-primary);
   position: relative;
-  min-height: 100px;
-  display: flex;
-  flex-direction: column;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .day:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-hover);
 }
 
-.day.selected {
-  border: 2px solid var(--primary-color);
+.dayNumber {
+  font-size: 0.9rem;
+  color: var(--text-primary);
 }
 
 .emptyDay {
   aspect-ratio: 1;
 }
 
-.dayNumber {
+.taskCount {
   position: absolute;
-  top: 0.25rem;
+  bottom: 0.25rem;
   left: 0.25rem;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  font-weight: 500;
-  z-index: 1;
+  right: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+  background-color: var(--background-secondary);
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 640px) {
+  .calendar {
+    padding: 0.5rem;
+  }
+
+  .header h2 {
+    font-size: 1.25rem;
+  }
+
+  .weekday {
+    font-size: 0.8rem;
+  }
+
+  .dayNumber {
+    font-size: 0.8rem;
+  }
+
+  .taskCount {
+    font-size: 0.7rem;
+  }
 }
 
 .today {

@@ -1,120 +1,186 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { auth, db } from '../config/firebase';
-import { 
-  User as FirebaseUser,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  updateProfile as firebaseUpdateProfile,
-  updateEmail as firebaseUpdateEmail
-} from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import { User } from '../types';
-import { useTheme } from './ThemeContext';
+import { useAuth } from './AuthContext';
+import { db } from '../config/firebase';
+import { doc, getDoc, setDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { updateProfile as updateFirebaseProfile } from 'firebase/auth';
+
+interface UserData {
+  id: string;
+  email: string | null;
+  displayName: string | null;
+  tasksCompleted: number;
+  currentStreak: number;
+  bestStreak: number;
+  lastTaskDate: string | null;
+  points: number;
+}
+
+const defaultUserData: Omit<UserData, 'id' | 'email' | 'displayName'> = {
+  tasksCompleted: 0,
+  currentStreak: 0,
+  bestStreak: 0,
+  lastTaskDate: null,
+  points: 0
+};
 
 interface UserContextType {
-  user: User | null;
+  userData: UserData | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, displayName: string) => Promise<void>;
-  signOut: () => Promise<void>;
+  updateUserData: (data: Partial<UserData>) => Promise<void>;
   updateProfile: (data: { displayName?: string; email?: string }) => Promise<void>;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType>({
+  userData: null,
+  loading: true,
+  updateUserData: async () => {},
+  updateProfile: async () => {},
+});
 
-export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export function useUser() {
+  return useContext(UserContext);
+}
+
+interface UserProviderProps {
+  children: ReactNode;
+}
+
+export function UserProvider({ children }: UserProviderProps) {
+  const { user } = useAuth();
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { forceDarkMode } = useTheme();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      if (firebaseUser) {
-        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-        if (userDoc.exists()) {
-          setUser({
-            id: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
-            ...userDoc.data()
-          } as User);
-        } else {
-          // Create new user document
-          const newUser: User = {
-            id: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
-            tasksCompleted: 0,
-            currentStreak: 0,
-            bestStreak: 0,
-            lastTaskDate: null
-          };
-          await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
-          setUser(newUser);
-        }
+    if (!user) {
+      setUserData(null);
+      setLoading(false);
+      return;
+    }
+
+    console.log('Setting up user data listener for:', user.uid);
+    const userRef = doc(db, 'users', user.uid);
+    
+    // Set up real-time listener
+    const unsubscribe = onSnapshot(userRef, (doc) => {
+      console.log('Raw user data from Firestore:', doc.data());
+      if (doc.exists()) {
+        const rawData = doc.data();
+        // Ensure all required fields are present
+        const data: UserData = {
+          id: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          tasksCompleted: rawData.tasksCompleted ?? defaultUserData.tasksCompleted,
+          currentStreak: rawData.currentStreak ?? defaultUserData.currentStreak,
+          bestStreak: rawData.bestStreak ?? defaultUserData.bestStreak,
+          lastTaskDate: rawData.lastTaskDate ?? defaultUserData.lastTaskDate,
+          points: rawData.points ?? defaultUserData.points
+        };
+        console.log('Processed user data:', data);
+        setUserData(data);
       } else {
-        setUser(null);
+        // Create new user data if it doesn't exist
+        const newUserData: UserData = {
+          id: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          ...defaultUserData
+        };
+        console.log('Creating new user data:', newUserData);
+        setDoc(userRef, newUserData);
+        setUserData(newUserData);
       }
+      setLoading(false);
+    }, (error) => {
+      console.error('Error in user data listener:', error);
       setLoading(false);
     });
 
-    return () => unsubscribe();
-  }, []);
-
-  const signIn = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const signUp = async (email: string, password: string, displayName: string) => {
-    const { user: firebaseUser } = await createUserWithEmailAndPassword(auth, email, password);
-    await firebaseUpdateProfile(firebaseUser, { displayName });
-    
-    const newUser: User = {
-      id: firebaseUser.uid,
-      email: firebaseUser.email,
-      displayName,
-      tasksCompleted: 0,
-      currentStreak: 0,
-      bestStreak: 0,
-      lastTaskDate: null
+    return () => {
+      console.log('Cleaning up user data listener');
+      unsubscribe();
     };
-    
-    await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
-  };
+  }, [user]);
 
-  const signOut = async () => {
-    await firebaseSignOut(auth);
+  const updateUserData = async (data: Partial<UserData>) => {
+    if (!user) {
+      console.log('No user found in updateUserData');
+      return;
+    }
+
+    try {
+      console.log('Updating user data in Firestore:', data);
+      const userRef = doc(db, 'users', user.uid);
+      
+      // Get current data first
+      const currentDoc = await getDoc(userRef);
+      const currentData = currentDoc.exists() ? currentDoc.data() : {};
+      
+      // Merge current data with updates
+      const updatedData = {
+        ...currentData,
+        ...data,
+        id: user.uid,
+        email: user.email,
+        displayName: user.displayName
+      };
+      
+      // Update local state first
+      setUserData(prev => {
+        if (!prev) return null;
+        const newData = { ...prev, ...data };
+        console.log('Updated local state:', newData);
+        return newData;
+      });
+
+      // Then update Firestore
+      await updateDoc(userRef, data);
+      console.log('Firestore update successful');
+
+      // Force a refresh of the data
+      const updatedDoc = await getDoc(userRef);
+      if (updatedDoc.exists()) {
+        const rawData = updatedDoc.data();
+        const freshData: UserData = {
+          id: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          tasksCompleted: rawData.tasksCompleted ?? defaultUserData.tasksCompleted,
+          currentStreak: rawData.currentStreak ?? defaultUserData.currentStreak,
+          bestStreak: rawData.bestStreak ?? defaultUserData.bestStreak,
+          lastTaskDate: rawData.lastTaskDate ?? defaultUserData.lastTaskDate,
+          points: rawData.points ?? defaultUserData.points
+        };
+        console.log('Fresh data from Firestore:', freshData);
+        setUserData(freshData);
+      }
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      throw error;
+    }
   };
 
   const updateProfile = async (data: { displayName?: string; email?: string }) => {
-    if (!user) throw new Error('No user logged in');
+    if (!user) return;
 
-    const updates: { [key: string]: any } = {};
-    if (data.displayName) {
-      await firebaseUpdateProfile(auth.currentUser as FirebaseUser, { displayName: data.displayName });
-      updates.displayName = data.displayName;
-    }
-    if (data.email) {
-      await firebaseUpdateEmail(auth.currentUser as FirebaseUser, data.email);
-      updates.email = data.email;
-    }
+    try {
+      // Update Firebase Auth profile
+      if (data.displayName) {
+        await updateFirebaseProfile(user, { displayName: data.displayName });
+      }
 
-    await updateDoc(doc(db, 'users', user.id), updates);
-    setUser(prev => prev ? { ...prev, ...updates } : null);
+      // Update Firestore user data
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, data);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw error;
+    }
   };
 
   return (
-    <UserContext.Provider value={{ user, loading, signIn, signUp, signOut, updateProfile }}>
+    <UserContext.Provider value={{ userData, loading, updateUserData, updateProfile }}>
       {children}
     </UserContext.Provider>
   );
-}
-
-export function useUser() {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
-  return context;
 } 

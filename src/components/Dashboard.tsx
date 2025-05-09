@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Dashboard.module.css';
-import TaskCalendar from './tasks/TaskCalendar';
-import FullTaskList from './tasks/FullTaskList';
 import { Link } from 'react-router-dom';
 import { useTasks } from '../context/TasksContext';
+import { useUser } from '../context/UserContext';
+import TaskList from './tasks/TaskList';
 
 const Dashboard: React.FC = () => {
-  const { tasks, toggleTask, deleteTask, updateTask } = useTasks();
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+  const { tasks } = useTasks();
+  const { userData } = useUser();
 
-  const handleDateClick = (date: Date | null) => {
-    setSelectedDate(date);
-  };
+  const pendingTasks = tasks.filter(task => !task.completed);
+  const completedTasks = tasks.filter(task => task.completed);
+
+  if (!userData) {
+    console.log('No user data available in Dashboard');
+    return <div>Loading...</div>;
+  }
+
+  console.log('Rendering Dashboard with points:', userData.points, 'streak:', userData.currentStreak);
 
   return (
     <div className={styles.dashboard}>
@@ -35,7 +41,9 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <div className={styles.statValue}>7 days</div>
+          <div className={styles.statValue}>
+            {userData.currentStreak} days
+          </div>
         </div>
 
         <div className={styles.statCard}>
@@ -49,7 +57,9 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <div className={styles.statValue}>1,250</div>
+          <div className={styles.statValue}>
+            {userData.points}
+          </div>
         </div>
 
         <div className={styles.statCard}>
@@ -63,20 +73,23 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <div className={styles.statValue}>5</div>
+          <div className={styles.statValue}>
+            {Math.floor(userData.points / 100)}
+          </div>
         </div>
       </div>
 
       <div className={styles.content}>
-        <TaskCalendar 
-          tasks={tasks}
-          onDateClick={handleDateClick}
-          selectedDate={selectedDate}
-          onToggleTask={toggleTask}
-          onDeleteTask={deleteTask}
-          onUpdateTask={updateTask}
-        />
-        <FullTaskList />
+        <div className={styles.tasksSection}>
+          <div className={styles.taskColumn}>
+            <h2>Ongoing Tasks</h2>
+            <TaskList tasks={pendingTasks} />
+          </div>
+          <div className={styles.taskColumn}>
+            <h2>Completed Tasks</h2>
+            <TaskList tasks={completedTasks} />
+          </div>
+        </div>
       </div>
     </div>
   );

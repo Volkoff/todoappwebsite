@@ -5,13 +5,13 @@ import { useAchievements } from '../../context/AchievementContext';
 import styles from './Profile.module.css';
 
 export default function Profile() {
-  const { user, updateProfile } = useUser();
+  const { userData, updateProfile } = useUser();
   const { resetTasks } = useTasks();
   const { resetAchievements } = useAchievements();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    displayName: user?.displayName || '',
-    email: user?.email || ''
+    displayName: userData?.displayName || '',
+    email: userData?.email || ''
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,21 +56,21 @@ export default function Profile() {
             <span className="material-icons">task_alt</span>
             <div className={styles.statInfo}>
               <h3>Tasks Completed</h3>
-              <p>{user?.tasksCompleted || 0}</p>
+              <p>{userData?.tasksCompleted || 0}</p>
             </div>
           </div>
           <div className={styles.statCard}>
             <span className="material-icons">local_fire_department</span>
             <div className={styles.statInfo}>
               <h3>Current Streak</h3>
-              <p>{user?.currentStreak || 0} days</p>
+              <p>{userData?.currentStreak || 0} days</p>
             </div>
           </div>
           <div className={styles.statCard}>
             <span className="material-icons">emoji_events</span>
             <div className={styles.statInfo}>
               <h3>Best Streak</h3>
-              <p>{user?.bestStreak || 0} days</p>
+              <p>{userData?.bestStreak || 0} days</p>
             </div>
           </div>
         </div>
@@ -100,6 +100,7 @@ export default function Profile() {
                 value={formData.email}
                 onChange={handleInputChange}
                 required
+                disabled
               />
             </div>
             <div className={styles.formActions}>
@@ -115,14 +116,14 @@ export default function Profile() {
               <span className="material-icons">person</span>
               <div>
                 <h3>Display Name</h3>
-                <p>{user?.displayName}</p>
+                <p>{userData?.displayName}</p>
               </div>
             </div>
             <div className={styles.infoItem}>
               <span className="material-icons">email</span>
               <div>
                 <h3>Email</h3>
-                <p>{user?.email}</p>
+                <p>{userData?.email}</p>
               </div>
             </div>
             <button 
